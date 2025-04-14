@@ -137,15 +137,22 @@ class Game:
 
             elif self.last_player.has_checked():
                 c = [Action.ALL_IN, Action.CHECK, Action.RAISE, Action.FOLD]
-                w = [0.01, .7, .9, .1]
+                w = [0.01, .7, .09, .1]
                 action = choices(c, weights=w, k=1)[0]
                 player.perform_action(action)
 
-            elif self.last_player.has_raised() or self.last_player.has_called() or self.last_player.has_all_in():
+            elif self.last_player.has_raised() or self.last_player.has_called():
                 c = [Action.ALL_IN, Action.CALL, Action.RAISE, Action.FOLD]
                 w = [0.01, .6, .15, .15]
                 action = choices(c, weights=w, k=1)[0]
                 player.perform_action(action)
+
+            elif self.last_player.has_all_in():
+                c = [Action.ALL_IN, Action.CALL, Action.RAISE, Action.FOLD]
+                w = [0.01, .01, .01, .97]
+                action = choices(c, weights=w, k=1)[0]
+                player.perform_action(action)
+
             else:
                 print("No action performed")
 
