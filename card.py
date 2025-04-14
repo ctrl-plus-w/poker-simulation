@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 
 from symbol import Symbol
 
@@ -7,6 +8,7 @@ from symbol import Symbol
 class Card:
     value: int = None
     symbol: Symbol = None
+    created_at: datetime = datetime.now()
 
     @staticmethod
     def stringify_value(value):

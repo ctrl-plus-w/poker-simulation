@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Tuple, List
 from dataclasses import dataclass
 from random import gauss
@@ -28,6 +29,7 @@ class Player:
     game: 'Game' = None
     bet: int = 0
     stack: int = 0
+    created_at: datetime = datetime.now()
 
     def has_played_action(self, action: Action):
         history_actions = list(filter(lambda a: a.round_num == self.game.round_num, self.history))

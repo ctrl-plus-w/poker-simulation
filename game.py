@@ -1,5 +1,6 @@
 from typing import List
 from random import choices
+from datetime import datetime
 
 from action import Action
 from card import Card
@@ -22,6 +23,8 @@ class Game:
 
     last_player: Player = None
 
+    crated_at: datetime = None
+
     def __init__(self, players: List[Player], default_stack: int, small_blind: int):
         self.players = players
         self.archived_players = []
@@ -39,6 +42,8 @@ class Game:
         self.current_bet = 0
         self.round_num = 0
         self.pot = 0
+
+        self.created_at = datetime.now()
 
     def distribute_players_cards(self):
         for player in self.players:
