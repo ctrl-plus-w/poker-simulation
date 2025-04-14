@@ -8,6 +8,8 @@ from history import History
 from action import Action
 from utils import get_apex_datetime
 
+current_hand_id = 1
+
 
 def gaussian_bet(min_bet, stack):
     max_bet = (stack + min_bet) // 2
@@ -30,6 +32,7 @@ class Player:
     game: 'Game' = None
     bet: int = 0
     stack: int = 0
+    hand_id: int = None
     created_at: datetime = datetime.now(timezone.utc)
 
     def has_played_action(self, action: Action):
@@ -140,7 +143,7 @@ class Player:
 
         statements.append(f"INSERT INTO player__game (player_id, game_id) VALUES ({self.id}, {self.game.id});")
         statements.append(
-            f"INSERT INTO player_hand (id, player_id, deck_card_id, deck_card_id1, created_at) VALUES ({self.id}{self.game.id}, {self.id}, {self.hand[0].id}, {self.hand[1].id}, {get_apex_datetime(self.created_at)});")
+            f"INSERT INTO player_hand (id, player_id, deck_card_id, deck_card_id1, created_at) VALUES ({self.hand_id}, {self.id}, {self.hand[0].id}, {self.hand[1].id}, {get_apex_datetime(self.created_at)});")
 
         for history_action in self.history:
             statements.append(history_action.get_sql(self, self.game))
@@ -149,3 +152,8 @@ class Player:
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} with cards ({self.hand[0]}, {self.hand[1]}) [stack: {self.stack}, bet: {self.bet}]"
+
+    def reset_hand_id(self):
+        global current_hand_id
+        self.hand_id = current_hand_id
+        current_hand_id += 1

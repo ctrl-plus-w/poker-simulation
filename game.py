@@ -51,6 +51,7 @@ class Game:
     def distribute_players_cards(self):
         for player in self.players:
             player.hand = [self.deck.cards.pop(0) for _ in range(2)]
+            player.reset_hand_id()
 
     def distribute_community_cards(self):
         self.cards = [self.deck.cards.pop(0) for _ in range(5)]
@@ -176,7 +177,10 @@ class Game:
         statements.append(
             f"INSERT INTO game (id, small_blind, starting_pot, created_at) VALUES ({self.id},{self.small_blind},{self.default_stack},{get_apex_datetime(self.created_at)});")
 
-        for card in self.deck.default_cards:
+        used_cards = self.cards
+        for player in self.players:
+            used_cards += player.hand
+        for card in used_cards:
             statements.append(card.get_sql(self))
 
         statements.append(
