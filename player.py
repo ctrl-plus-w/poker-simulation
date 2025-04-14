@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Tuple, List
 from dataclasses import dataclass
 from random import gauss
@@ -6,6 +6,7 @@ from random import gauss
 from card import Card
 from history import History
 from action import Action
+from utils import get_apex_datetime
 
 
 def gaussian_bet(min_bet, stack):
@@ -29,7 +30,7 @@ class Player:
     game: 'Game' = None
     bet: int = 0
     stack: int = 0
-    created_at: datetime = datetime.now()
+    created_at: datetime = datetime.now(timezone.utc)
 
     def has_played_action(self, action: Action):
         history_actions = list(filter(lambda a: a.round_num == self.game.round_num, self.history))
@@ -130,6 +131,21 @@ class Player:
             self.history.append(History(action, value, self.game.round_num))
             self.perform_bet(value)
             self.game.last_player = self
+
+    def get_sql(self):
+        return f"INSERT INTO player (id, first_name, last_name, created_at) VALUES ({self.id}, '{self.first_name}', '{self.last_name}', {get_apex_datetime(self.created_at)});";
+
+    def get_game_sql(self):
+        statements: List[str] = []
+
+        statements.append(f"INSERT INTO player__game (player_id, game_id) VALUES ({self.id}, {self.game.id});")
+        statements.append(
+            f"INSERT INTO player_hand (id, player_id, deck_card_id, deck_card_id1, created_at) VALUES ({self.id}{self.game.id}, {self.id}, {self.hand[0].id}, {self.hand[1].id}, {get_apex_datetime(self.created_at)});")
+
+        for history_action in self.history:
+            statements.append(history_action.get_sql(self, self.game))
+
+        return statements
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} with cards ({self.hand[0]}, {self.hand[1]}) [stack: {self.stack}, bet: {self.bet}]"

@@ -1,14 +1,16 @@
 from typing import List
 from random import choices
-from datetime import datetime
+from datetime import datetime, timezone
 
 from action import Action
 from card import Card
 from deck import Deck
 from player import Player
+from utils import get_apex_datetime
 
 
 class Game:
+    id: int = None
     players: List[Player] = None
     archived_players: List[Player] = []
     cards: List[Card] = []
@@ -25,7 +27,8 @@ class Game:
 
     crated_at: datetime = None
 
-    def __init__(self, players: List[Player], default_stack: int, small_blind: int):
+    def __init__(self, id: int, players: List[Player], default_stack: int, small_blind: int):
+        self.id = id
         self.players = players
         self.archived_players = []
 
@@ -43,7 +46,7 @@ class Game:
         self.round_num = 0
         self.pot = 0
 
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
 
     def distribute_players_cards(self):
         for player in self.players:
@@ -166,6 +169,23 @@ class Game:
         for player in self.players:
             print(player)
         print("=" * 20)
+
+    def get_sql(self):
+        statements: List[str] = []
+
+        statements.append(
+            f"INSERT INTO game (id, small_blind, starting_pot, created_at) VALUES ({self.id},{self.small_blind},{self.default_stack},{get_apex_datetime(self.created_at)});")
+
+        for card in self.deck.default_cards:
+            statements.append(card.get_sql(self))
+
+        statements.append(
+            f"UPDATE game SET deck_card_id = {self.cards[0].id}, deck_card_id1 = {self.cards[1].id}, deck_card_id2 = {self.cards[2].id}, deck_card_id4 = {self.cards[3].id}, deck_card_id5 = {self.cards[4].id} WHERE id = {self.id};")
+
+        for player in self.players:
+            statements += player.get_game_sql()
+
+        return '\n'.join(statements)
 
     def __str__(self):
         return ', '.join(list(map(str, self.cards)))
