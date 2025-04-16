@@ -5,8 +5,8 @@ from datetime import datetime, timezone
 from src.classes.card import Card
 from src.classes.deck import Deck
 from src.classes.player import Player
-
-from src.utils import get_apex_datetime
+from src.classes.sql_script import SQLScript
+from src.classes.sql_statement import SQLInsertStatementBuilder, SQLUpdateStatement
 
 from src.enums.action import Action
 
@@ -173,25 +173,30 @@ class Game:
             print(player)
         print("=" * 20)
 
-    def get_sql(self):
-        statements: List[str] = []
+    def get_script(self):
+        script = SQLScript()
 
-        statements.append(
-            f"INSERT INTO game (id, small_blind, starting_pot, created_at) VALUES ({self.id},{self.small_blind},{self.default_stack},{get_apex_datetime(self.created_at)});")
+        builder = SQLInsertStatementBuilder("game", ['id', 'small_blind', 'starting_pot', 'created_at'])
+        script.add(builder.build([self.id, self.small_blind, self.default_stack, self.created_at]))
 
         used_cards = self.cards
         for player in self.players:
             used_cards += player.hand
         for card in used_cards:
-            statements.append(card.get_sql(self))
+            script.add(card.get_sql_statement(self))
 
-        statements.append(
-            f"UPDATE game SET deck_card_id = {self.cards[0].id}, deck_card_id1 = {self.cards[1].id}, deck_card_id2 = {self.cards[2].id}, deck_card_id4 = {self.cards[3].id}, deck_card_id5 = {self.cards[4].id} WHERE id = {self.id};")
+        script.add(SQLUpdateStatement("game", {
+            "deck_card_id": self.cards[0].id,
+            "deck_card_id1": self.cards[1].id,
+            "deck_card_id2": self.cards[2].id,
+            "deck_card_id4": self.cards[3].id,
+            "deck_card_id5": self.cards[4].id
+        }, f"id = {self.id}"))
 
         for player in self.players:
-            statements += player.get_game_sql()
+            script.merge(player.get_game_script())
 
-        return '\n'.join(statements)
+        return script
 
     def __str__(self):
         return ', '.join(list(map(str, self.cards)))

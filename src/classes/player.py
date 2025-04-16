@@ -5,8 +5,8 @@ from random import gauss
 
 from src.classes.card import Card
 from src.classes.history import History
-
-from src.utils import get_apex_datetime
+from src.classes.sql_script import SQLScript
+from src.classes.sql_statement import SQLInsertStatement, SQLInsertStatementBuilder
 
 from src.enums.action import Action
 
@@ -137,20 +137,25 @@ class Player:
             self.perform_bet(value)
             self.game.last_player = self
 
-    def get_sql(self):
-        return f"INSERT INTO player (id, first_name, last_name, created_at) VALUES ({self.id}, '{self.first_name}', '{self.last_name}', {get_apex_datetime(self.created_at)});";
+    def get_sql_statement(self):
+        builder = SQLInsertStatementBuilder("player", ["id", "first_name", "last_name", "created_at"], )
+        return builder.build([self.id, self.first_name, self.last_name, self.created_at])
 
-    def get_game_sql(self):
-        statements: List[str] = []
+    def get_game_script(self):
+        script = SQLScript()
 
-        statements.append(f"INSERT INTO player__game (player_id, game_id) VALUES ({self.id}, {self.game.id});")
-        statements.append(
-            f"INSERT INTO player_hand (id, player_id, deck_card_id, deck_card_id1, created_at) VALUES ({self.hand_id}, {self.id}, {self.hand[0].id}, {self.hand[1].id}, {get_apex_datetime(self.created_at)});")
+        script.add(SQLInsertStatement("player__game", ["player_id", "game_id"], [self.id, self.game.id]))
+
+        player_hand_builder = SQLInsertStatementBuilder("player_hand",
+                                                        ["id", "player_id", "deck_card_id", "deck_card_id1",
+                                                         "created_at"])
+        script.add(player_hand_builder.build(
+            [self.hand_id, self.id, self.hand[0].id, self.hand[1].id, self.created_at]))
 
         for history_action in self.history:
-            statements.append(history_action.get_sql(self, self.game))
+            script.add(history_action.get_sql_statement(self, self.game))
 
-        return statements
+        return script
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} with cards ({self.hand[0]}, {self.hand[1]}) [stack: {self.stack}, bet: {self.bet}]"

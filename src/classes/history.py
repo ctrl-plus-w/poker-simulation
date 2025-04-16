@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Optional
 
-from src.utils import get_apex_datetime
+from src.classes.sql_statement import SQLInsertStatementBuilder
 
 from src.enums.action import Action
 
@@ -24,5 +24,8 @@ class History:
         self.id = current_id
         current_id += 1
 
-    def get_sql(self, player: 'Player', game: 'Game'):
-        return f"INSERT INTO history (id, player_id, game_id, action, value, round, created_at) VALUES ({self.id}, {player.id}, {game.id}, '{self.action.name}', {self.value or 'NULL'}, {self.round_num}, {get_apex_datetime(self.created_at)});"
+    def get_sql_statement(self, player: 'Player', game: 'Game'):
+        builder = SQLInsertStatementBuilder("history",
+                                            ["id", "player_id", "game_id", "action", "value", "round", "created_at"])
+        return builder.build([self.id, player.id, game.id, self.action.name, self.value or 'NULL', self.round_num,
+                              self.created_at])
