@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-from symbol import Symbol
-from utils import get_apex_datetime
+from src.utils import get_apex_datetime
+
+from src.enums.symbol import Symbol
 
 
 @dataclass

@@ -1,7 +1,8 @@
-from game import Game
-from player import Player
 from faker import Faker
 from random import sample, randint
+
+from src.classes.game import Game
+from src.classes.player import Player
 
 PLAYERS_COUNT = 30
 GAMES_COUNT = 2 * PLAYERS_COUNT

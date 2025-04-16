@@ -2,11 +2,13 @@ from typing import List
 from random import choices
 from datetime import datetime, timezone
 
-from action import Action
 from card import Card
 from deck import Deck
 from player import Player
-from utils import get_apex_datetime
+
+from src.utils import get_apex_datetime
+
+from src.enums.action import Action
 
 
 class Game:

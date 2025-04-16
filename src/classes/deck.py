@@ -1,8 +1,9 @@
 from typing import List
 from random import shuffle
 
-from symbol import Symbol
 from card import Card
+
+from src.enums.symbol import Symbol
 
 current_id = 1
 

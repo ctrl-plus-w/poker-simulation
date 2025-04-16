@@ -5,8 +5,10 @@ from random import gauss
 
 from card import Card
 from history import History
-from action import Action
-from utils import get_apex_datetime
+
+from src.utils import get_apex_datetime
+
+from src.enums.action import Action
 
 current_hand_id = 1
 
