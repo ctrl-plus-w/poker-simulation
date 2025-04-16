@@ -2,9 +2,9 @@ from typing import List
 from random import choices
 from datetime import datetime, timezone
 
-from card import Card
-from deck import Deck
-from player import Player
+from src.classes.card import Card
+from src.classes.deck import Deck
+from src.classes.player import Player
 
 from src.utils import get_apex_datetime
 

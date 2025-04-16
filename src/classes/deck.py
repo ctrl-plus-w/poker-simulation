@@ -1,7 +1,7 @@
 from typing import List
 from random import shuffle
 
-from card import Card
+from src.classes.card import Card
 
 from src.enums.symbol import Symbol
 

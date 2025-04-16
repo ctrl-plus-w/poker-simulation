@@ -3,8 +3,8 @@ from typing import Tuple, List
 from dataclasses import dataclass
 from random import gauss
 
-from card import Card
-from history import History
+from src.classes.card import Card
+from src.classes.history import History
 
 from src.utils import get_apex_datetime
 
