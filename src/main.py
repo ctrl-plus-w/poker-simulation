@@ -29,7 +29,7 @@ DELETE FROM player;
 
         statements += "\n" + game.get_sql()
 
-    with open('seed.sql', 'w+') as f:
+    with open('./out/seed.sql', 'w+') as f:
         f.writelines(statements)
 
 
