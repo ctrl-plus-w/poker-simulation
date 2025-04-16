@@ -6,7 +6,8 @@ from random import gauss
 from src.classes.card import Card
 from src.classes.history import History
 from src.classes.sql_script import SQLScript
-from src.classes.sql_statement import SQLInsertStatement, SQLInsertStatementBuilder
+from src.classes.sql_statement import SQLInsertStatement
+from src.classes.sql_statement_builder import SQLInsertStatementBuilder
 
 from src.enums.action import Action
 

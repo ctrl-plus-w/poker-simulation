@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Optional
 
-from src.classes.sql_statement import SQLInsertStatementBuilder
+from src.classes.sql_statement_builder import SQLInsertStatementBuilder
 
 from src.enums.action import Action
 

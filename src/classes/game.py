@@ -6,7 +6,8 @@ from src.classes.card import Card
 from src.classes.deck import Deck
 from src.classes.player import Player
 from src.classes.sql_script import SQLScript
-from src.classes.sql_statement import SQLInsertStatementBuilder, SQLUpdateStatement
+from src.classes.sql_statement import SQLUpdateStatement
+from src.classes.sql_statement_builder import SQLInsertStatementBuilder
 
 from src.enums.action import Action
 

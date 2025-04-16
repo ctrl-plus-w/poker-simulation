@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-from src.classes.sql_statement import SQLInsertStatementBuilder
+from src.classes.sql_statement_builder import SQLInsertStatementBuilder
 
 from src.enums.symbol import Symbol
 
