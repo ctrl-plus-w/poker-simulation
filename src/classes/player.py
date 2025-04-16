@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from typing import Tuple, List
+from typing import Tuple
 from dataclasses import dataclass
 from random import gauss
 
@@ -31,7 +31,7 @@ class Player:
     first_name: str = None
     last_name: str = None
     hand: Tuple[Card, Card] = None
-    history: List[History] = None
+    history: list[History] = None
     game: 'Game' = None
     bet: int = 0
     stack: int = 0

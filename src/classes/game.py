@@ -1,4 +1,3 @@
-from typing import List
 from random import choices
 from datetime import datetime, timezone
 
@@ -14,9 +13,9 @@ from src.enums.action import Action
 
 class Game:
     id: int = None
-    players: List[Player] = None
-    archived_players: List[Player] = []
-    cards: List[Card] = []
+    players: list[Player] = None
+    archived_players: list[Player] = []
+    cards: list[Card] = []
     deck: Deck = None
 
     default_stack: int = None
@@ -30,7 +29,7 @@ class Game:
 
     crated_at: datetime = None
 
-    def __init__(self, id: int, players: List[Player], default_stack: int, small_blind: int):
+    def __init__(self, id: int, players: list[Player], default_stack: int, small_blind: int):
         self.id = id
         self.players = players
         self.archived_players = []

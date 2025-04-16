@@ -1,5 +1,3 @@
-from typing import List
-
 from src.classes.sql_statement import SQLInsertStatement
 
 
@@ -14,9 +12,9 @@ class SQLTableStatementBuilder(SQLStatementBuilder):
 
 
 class SQLInsertStatementBuilder:
-    def __init__(self, table_name: str, columns: List[str]):
+    def __init__(self, table_name: str, columns: list[str]):
         self.table_name = table_name
         self.columns = columns
 
-    def build(self, values: List):
+    def build(self, values: list):
         return SQLInsertStatement(self.table_name, self.columns, values)

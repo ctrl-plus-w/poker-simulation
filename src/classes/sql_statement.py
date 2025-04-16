@@ -1,5 +1,3 @@
-from typing import List
-
 from src.utils import format_sql_value
 
 
@@ -14,7 +12,7 @@ class SQLTableStatement(SQLStatement):
 
 
 class SQLInsertStatement(SQLTableStatement):
-    def __init__(self, table_name: str, columns: List[str], values: List[list]):
+    def __init__(self, table_name: str, columns: list[str], values: list[list]):
         super().__init__(table_name)
         self.columns = columns
         self.values = values

@@ -1,10 +1,8 @@
-from typing import List, Optional
-
 from src.classes.sql_statement import SQLStatement
 
 
 class SQLScript:
-    statements: List[SQLStatement]
+    statements: list[SQLStatement]
 
     def __init__(self, statements: list[SQLStatement] = None):
         self.statements = statements or []
