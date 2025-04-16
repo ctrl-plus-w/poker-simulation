@@ -11,3 +11,16 @@ def format_sql_value(value):
         return get_apex_datetime(value)
 
     return f"'{value}'" if isinstance(value, str) else f"{value}"
+
+
+def get_positive_int_input(message: str):
+    while True:
+        try:
+            value = int(input(message))
+
+            if value <= 0:
+                raise ValueError()
+
+            return value
+        except ValueError:
+            print("Invalid input. Please enter a valid positive integer.")

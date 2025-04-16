@@ -5,14 +5,15 @@ from src.classes.game import Game
 from src.classes.player import Player
 from src.classes.sql_script import SQLScript
 from src.classes.sql_statement import SQLDeleteStatement
-
-PLAYERS_COUNT = 30
-GAMES_COUNT = 2 * PLAYERS_COUNT
+from src.utils import get_positive_int_input
 
 
 def main():
+    players_count = get_positive_int_input("Enter the number of players: ")
+    games_count = get_positive_int_input("Enter the number of games: ")
+
     fake = Faker()
-    players = [Player(i + 1, fake.first_name(), fake.last_name()) for i in range(PLAYERS_COUNT)]
+    players = [Player(i + 1, fake.first_name(), fake.last_name()) for i in range(players_count)]
 
     script = SQLScript()
 
@@ -24,7 +25,7 @@ def main():
     delete_script.add(SQLDeleteStatement("player"))
     script.merge(delete_script)
 
-    for i in range(GAMES_COUNT):
+    for i in range(games_count):
         game_players = sample(players, 6)
         default_stack = randint(3, 5) * 500
         small_blind = randint(1, 5) * 5
