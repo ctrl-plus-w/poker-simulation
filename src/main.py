@@ -1,3 +1,5 @@
+import os
+
 from faker import Faker
 from random import sample, randint
 
@@ -5,7 +7,7 @@ from src.classes.game import Game
 from src.classes.player import Player
 from src.classes.sql_script import SQLScript
 from src.classes.sql_statement import SQLDeleteStatement
-from src.utils import get_positive_int_input
+from src.utils import get_positive_int_input, save_seed
 
 
 def main():
@@ -34,8 +36,7 @@ def main():
 
         script.merge(game.get_script())
 
-    with open('./out/seed.sql', 'w+') as f:
-        f.writelines(script.get_sql())
+    save_seed(script)
 
 
 if __name__ == '__main__':
