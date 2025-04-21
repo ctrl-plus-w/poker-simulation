@@ -1,8 +1,6 @@
 import os
 from datetime import datetime
 
-from src.classes.sql_script import SQLScript
-
 
 def get_apex_datetime(date: datetime):
     str_date = date.strftime('%d-%b-%y %I.%M.%S.%f %p %z')
@@ -16,7 +14,7 @@ def format_sql_value(value):
     return f"'{value}'" if isinstance(value, str) else f"{value}"
 
 
-def save_seed(script: SQLScript):
+def save_seed(script: 'SQLScript'):
     path = './out/seed.sql'
 
     try:
