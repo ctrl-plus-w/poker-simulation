@@ -26,7 +26,7 @@ def main():
     script.merge(delete_script)
 
     for i in range(games_count):
-        game_players = sample(players, 6)
+        game_players = sample(players, min(6, len(players)))
         default_stack = randint(3, 5) * 500
         small_blind = randint(1, 5) * 5
         game = Game(i + 1, game_players, default_stack, small_blind)
