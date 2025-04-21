@@ -37,5 +37,5 @@ class History:
     def get_sql_statement(self, player: 'Player', game: 'Game'):
         builder = SQLInsertStatementBuilder("history",
                                             ["id", "player_id", "game_id", "action", "value", "round", "created_at"])
-        return builder.build([self.id, player.id, game.id, self.action.name, self.value or 'NULL', self.round_num,
+        return builder.build([self.id, player.id, game.id, self.action.name, self.value, self.round_num,
                               self.created_at])

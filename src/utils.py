@@ -11,6 +11,9 @@ def format_sql_value(value):
     if isinstance(value, datetime):
         return get_apex_datetime(value)
 
+    if value is None:
+        return "NULL"
+
     return f"'{value}'" if isinstance(value, str) else f"{value}"
 
 
