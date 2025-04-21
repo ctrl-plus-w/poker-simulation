@@ -22,6 +22,7 @@ def main():
     delete_script.add(SQLDeleteStatement("player__game"))
     delete_script.add(SQLDeleteStatement("player_hand"))
     delete_script.add(SQLDeleteStatement("deck_card"))
+    delete_script.add(SQLDeleteStatement("history"))
     delete_script.add(SQLDeleteStatement("game"))
     delete_script.add(SQLDeleteStatement("player"))
     script.merge(delete_script)
