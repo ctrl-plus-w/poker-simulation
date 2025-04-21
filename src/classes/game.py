@@ -1,5 +1,5 @@
+from datetime import datetime
 from random import choices
-from datetime import datetime, timezone
 
 from src.classes.card import Card
 from src.classes.deck import Deck
@@ -7,7 +7,7 @@ from src.classes.player import Player
 from src.classes.sql_script import SQLScript
 from src.classes.sql_statement import SQLUpdateStatement
 from src.classes.sql_statement_builder import SQLInsertStatementBuilder
-
+from src.classes.time_generator import time_generator
 from src.enums.action import Action
 
 
@@ -48,7 +48,7 @@ class Game:
         self.round_num = 0
         self.pot = 0
 
-        self.created_at = datetime.now(timezone.utc)
+        self.created_at = time_generator.now()
 
     def distribute_players_cards(self):
         for player in self.players:

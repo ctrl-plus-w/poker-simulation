@@ -1,19 +1,11 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from typing import Optional
 
 from src.classes.sql_statement_builder import SQLInsertStatementBuilder
-
+from src.classes.time_generator import time_generator
 from src.enums.action import Action
 
 current_id = 1
-
-now = datetime.now(timezone.utc)
-
-
-def get_now():
-    global now
-    now += timedelta(0, 0, 0, 0, 1)
-    return now
 
 
 class History:
@@ -27,7 +19,7 @@ class History:
         self.action = action
         self.value = value
         self.round_num = round_num
-        self.created_at = get_now()
+        self.created_at = time_generator.now()
 
         global current_id
         self.id = current_id

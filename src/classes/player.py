@@ -1,14 +1,14 @@
-from datetime import datetime, timezone
-from typing import Tuple
 from dataclasses import dataclass
+from datetime import datetime
 from random import gauss
+from typing import Tuple
 
 from src.classes.card import Card
 from src.classes.history import History
 from src.classes.sql_script import SQLScript
 from src.classes.sql_statement import SQLInsertStatement
 from src.classes.sql_statement_builder import SQLInsertStatementBuilder
-
+from src.classes.time_generator import time_generator
 from src.enums.action import Action
 
 current_hand_id = 1
@@ -36,7 +36,7 @@ class Player:
     bet: int = 0
     stack: int = 0
     hand_id: int = None
-    created_at: datetime = datetime.now(timezone.utc)
+    created_at: datetime = time_generator.now()
 
     def has_played_action(self, action: Action):
         history_actions = list(filter(lambda a: a.round_num == self.game.round_num, self.history))

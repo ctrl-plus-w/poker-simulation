@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 
 from src.classes.sql_statement_builder import SQLInsertStatementBuilder
+from src.classes.time_generator import time_generator
 
 from src.enums.symbol import Symbol
 
@@ -11,7 +12,7 @@ class Card:
     id: int = None
     value: int = None
     symbol: Symbol = None
-    created_at: datetime = datetime.now(timezone.utc)
+    created_at: datetime = time_generator.now()
 
     @staticmethod
     def stringify_value(value):
