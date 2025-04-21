@@ -111,6 +111,10 @@ class Game:
         if len(not_folded_and_all_in_players) == 1:
             return True
 
+        checked_players = list(filter(lambda p: p.has_checked(), self.players))
+        if len(checked_players) == len(not_folded_and_all_in_players):
+            return True
+
         for player in not_folded_and_all_in_players:
             if player.bet != self.current_bet:
                 return False
