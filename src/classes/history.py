@@ -13,7 +13,6 @@ now = datetime.now(timezone.utc)
 def get_now():
     global now
     now += timedelta(0, 0, 0, 0, 1)
-    print(now)
     return now
 
 
