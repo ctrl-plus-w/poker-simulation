@@ -1,5 +1,3 @@
-import os
-
 from faker import Faker
 from random import sample, randint
 
